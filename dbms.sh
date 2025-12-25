@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Create the databases directory if it doesn't exist
+# Create the databases directory 
 mkdir -p databases
 
-# Get the absolute path of the directory where this script is located
+# path of the directory 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Load the table operations library
+# table operations 
 source "$SCRIPT_DIR/lib/table_operations.sh"
 
-# Load the database operations library
+# database operations 
 source "$SCRIPT_DIR/lib/database_operations.sh"
 
-# Start by call the main menu func
+# call main menu
 main_menu
 
 

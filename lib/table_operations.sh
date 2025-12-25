@@ -15,7 +15,7 @@ select_from(){
 		do
 		case $REPLY in
 			1)  # Select all records
-			# Print column headers from metadata file (line 5)
+			# Print column headers from metadata file (L 5)
 			# FS="," sets field separator to comma, printf formats output with 5-char width
             awk -F, 'NR==5 {for (i=1;i<=NF;i++) printf "%s ", $i; print ""}' databases/$connectedDB/.$tblname"_metadata"
 			
@@ -64,10 +64,10 @@ select_from(){
 
 }
 
-# Description: Deletes records from a table all records or specific record by primary key)
+# Deletes all or specific records from a table
 delete_from(){
 	clear
-	# Get the table name from user
+	# get table name
 	read -p "Enter table name to delete from: " tblname
 	
 	# Check if table exists
@@ -121,21 +121,9 @@ delete_from(){
 	fi
 }
 
-#--------------------------------------------
-# Function: table
-# Description: Main table menu that handles all table
 
+# Main table menu that handles all table
 
-# Operations:
-#   1. Create table
-#   2. List tables
-#   3. Drop table
-#   4. Show metadata
-#   5. Insert to table
-#   6. Select from table
-#   7. Delete from table
-#   8. Back to main menu
-#--------------------------------------------
 table(){
     echo
 	echo _______________$connectedDB Database_______________

@@ -12,10 +12,10 @@ main_menu(){
 	echo
 	echo  _________________Main Menu________________
 	
-	# Infinite loop to keep showing the menu until user exits
+	#keep the menushowing
 	while true
 	do
-	# the ps3 is used to change the prompt of the select command
+	# ps3 : prompt of selected command
 	PS3="Your Choice Is: "
     # read is for input 
 	choice=read
@@ -25,7 +25,7 @@ main_menu(){
 		do
 	
 		case $REPLY in
-		1)  # Create a new database
+		1)  # create database
 		clear 
         # read and store in var $REPLY and -p is for prompt
 		read -p "Enter a name for the database: "; 
@@ -41,7 +41,7 @@ main_menu(){
 			break
 		;;
 		
-		2)  # List all existing databases
+		2)  # list databases
 		clear
 		echo
 		echo The available databases are:
@@ -52,7 +52,7 @@ main_menu(){
 		break
 		;;
 		
-		3)  # Connect to an existing database
+		3)  # Connect database
 		clear
 		read -p "Enter the name of the database you want to connect with: " connectedDB
 		
@@ -71,7 +71,7 @@ main_menu(){
 		break
 		;;
 		
-		4)  # Drop (delete) a database
+		4)  # Drop a database
 		clear
 		read -p "Enter the name of the database you want to drop: "
 		
@@ -86,7 +86,7 @@ main_menu(){
 		break
 		;;
 		
-		5)  # Exit the application
+		5)  # Exit from DBMS
 			exit
 			;;
 			
