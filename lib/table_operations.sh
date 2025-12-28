@@ -36,9 +36,9 @@ select_from(){
 			# Print column headers
             awk -F, 'NR==5 {for (i=1;i<=NF;i++) printf "%s ", $i; print ""}' databases/$connectedDB/.$tblname"_metadata"
 			
-			# Search for record with matching primary key (starts with val)
+			# Search for record with matching primary key (exact match)
 			# Store result in temporary file
-			cat databases/$connectedDB/$tblname|grep ^$val>databases/$connectedDB/temp2
+			cat databases/$connectedDB/$tblname|grep "^${val},">databases/$connectedDB/temp2
 			
 			# Display the matching record
 			awk 'BEGIN{FS=","}{for (i=1;i<=NF;i++) printf "%-5s",$i; print ""}' databases/$connectedDB/temp2
@@ -91,11 +91,11 @@ delete_from(){
 			
             
             # grep -v → selects lines that do NOT match the pattern
-            # ^$val → matches lines that start with $val (primary key)
+            # ^$val, → matches lines that start with $val followed by comma (exact primary key)
             # Redirect output to a temporary file temp.csv
             
             
-            grep -v ^$val databases/$connectedDB/$tblname>databases/$connectedDB/temp.csv
+            grep -v "^$val," databases/$connectedDB/$tblname>databases/$connectedDB/temp.csv
 			
 			# Replace original table with the temp file (record deleted)
 			mv databases/$connectedDB/temp.csv databases/$connectedDB/$tblname
@@ -188,14 +188,17 @@ select choice in "create table" "list tables" "drop table" "show meta data of a 
 				
 				# Check for duplicate column name
 				for col in "${column_names[@]}"; do
-					if [[ "$col" == "$name" ]]; then
-						echo "Error: Column name '$name' already exists! Cannot have duplicate column names."
-						# Clean up created files
-						rm databases/$connectedDB/$tblname
-						rm databases/$connectedDB/.$tblname"_metadata"
-						table
-					fi
+    			if [[ "$col" == "$name" ]]; then
+        	echo "Error: Column name '$name' already exists! Cannot have duplicate column names."
+
+        	rm -f "databases/$connectedDB/$tblname"
+        	rm -f "databases/$connectedDB/.$tblname"_metadata
+
+        	table
+        return   # stop execution of current function
+    		fi
 				done
+
 				
                  # without ,
 				echo -n $name >> databases/$connectedDB/.$tblname"_metadata";
@@ -344,9 +347,14 @@ select choice in "create table" "list tables" "drop table" "show meta data of a 
 					# Check each existing primary key
 					for j in $pks 
 					do					
+						if [[ -z "$value" ]]; then
+						 	echo "Primary key cannot be empty";
+							return;
+							fi
 						if [[ "$j" == "$value" ]]; then
 							echo "Error: Primary key '$value' already exists! Cannot insert duplicate primary key."
 							table
+							return
 						fi
 					done
 				fi
