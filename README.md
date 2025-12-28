@@ -1,6 +1,6 @@
 # DBMS-shell-script
 
-A simple Bash Shell Script Database Management System (DBMS), created by @Amr Yasser and @Mohamed Hagagy
+A simple Bash Shell Script Database Management System (DBMS), created by @youssef salah and @Mohamed hamdy
 
 The Project aim to develop DBMS, that will enable users to store and retrieve the data from Hard-disk.
 
